@@ -28,10 +28,29 @@ function TradingCard(props) {
   );
 }
 
+// TASK 1 
 function TradingCardContainer() {
+
+
+  // A variable that is a Javascript object
+  // const floatCard = {
+  //   name: 'Float',
+  //   skill: 'baking pretzels',
+  //   imgUrl: '/static/img/float.jpg'
+  // };
+
+  // If want to change cards, use function updateCard
+  const [cards, updateCards] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch('/cards.json')
+    .then((response) => response.json())
+    .then((data) => updateCards(data.cards))
+  }, [])
+
   const tradingCards = [];
 
-  for (const currentCard of tradingCardData) {
+  for (const currentCard of cards) {
     tradingCards.push(
       <TradingCard
         key={currentCard.name}
@@ -45,7 +64,31 @@ function TradingCardContainer() {
   return (
     <div>{tradingCards}</div>
   );
+
 }
+
+
+// END OF TASK 1
+
+
+// function TradingCardContainer() {
+//   const tradingCards = [];
+
+//   for (const currentCard of tradingCardData) {
+//     tradingCards.push(
+//       <TradingCard
+//         key={currentCard.name}
+//         name={currentCard.name}
+//         skill={currentCard.skill}
+//         imgUrl={currentCard.imgUrl}
+//       />
+//     );
+//   }
+
+//   return (
+//     <div>{tradingCards}</div>
+//   );
+// }
 
 ReactDOM.render(
   <TradingCardContainer />,
