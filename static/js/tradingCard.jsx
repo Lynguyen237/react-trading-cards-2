@@ -1,4 +1,7 @@
-var tradingCardData = [
+// use let instead of var
+// later can use tradingCardData = "somethingelse"
+// use const, you can't change it like let
+let tradingCardData = [
   {
     name: 'Balloonicorn',
     skill: 'video games',
@@ -43,8 +46,8 @@ function TradingCardContainer() {
   const [cards, updateCards] = React.useState([]);
 
   React.useEffect(() => {
-    fetch('/cards.json')
-    .then((response) => response.json())
+    fetch('/api/cards.json')
+    .then((response) => response.json()) //can call response whatever you want
     .then((data) => updateCards(data.cards))
   }, [])
 
@@ -62,7 +65,10 @@ function TradingCardContainer() {
   }
 
   return (
-    <div>{tradingCards}</div>
+    <div>
+      <TradingCardForm />
+      <div>{tradingCards}</div>
+    </div>
   );
 
 }
@@ -94,3 +100,55 @@ ReactDOM.render(
   <TradingCardContainer />,
   document.getElementById('container')
 );
+
+
+// FURTHER STUDY: https://fellowship.hackbrightacademy.com/materials/pt7g/exercises/react-trading-cards-2/further-study/
+
+function TradingCardForm() {
+  const [name, setName] = React.useState('');
+  const [skill, setSkill] = React.useState('');
+
+  function addNewCard() {
+    const data = {
+      name,
+      skill,
+    };
+
+    $.post('/add-card', data, updateCards);
+  }
+
+  function updateCards() {
+    alert('done adding card');
+  }
+
+  // What's e? and .target
+  function handleNameChange(e) {
+    setName(e.target.value)
+  }
+
+  function handleSkillChange(e) {
+    setSkill(e.target.value );
+  }
+
+  return (
+    <form>
+      <label for="name">Name:</label>
+      <input
+        id="name"
+        type="text"
+        value={name}
+        onChange={handleNameChange}
+      />
+
+      <label for="skill">Skill:</label>
+      <input
+        id="skill"
+        type="text"
+        value={skill}
+        onChange={handleSkillChange}
+      />
+
+      <button onClick={addNewCard}>Add</button>
+    </form>
+  );
+}

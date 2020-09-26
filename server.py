@@ -15,7 +15,7 @@ def show_cards():
 
     return render_template("cards.html")
 
-@app.route("/cards.json")
+@app.route("/api/cards.json")
 def get_cards_json():
     """Return a JSON response with all cards in DB."""
 
